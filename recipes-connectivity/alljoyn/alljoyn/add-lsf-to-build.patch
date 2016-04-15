@@ -1,0 +1,44 @@
+Index: alljoyn-14.12.00b-src/SConstruct
+===================================================================
+--- alljoyn-14.12.00b-src.orig/SConstruct
++++ alljoyn-14.12.00b-src/SConstruct
+@@ -12,6 +12,10 @@
+ #    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ #    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ # 
++#   Modified by FSL to add Lighting Service Framework.
++#   Original version is taken from
++#   https://allseenalliance.org/releases/alljoyn/${PV}/alljoyn-14.12.00b-src.tar.gz
++#
+ 
+ import os
+ 
+@@ -32,7 +36,8 @@ bindings = set([ b.strip()
+                  if b.strip() == 'cpp' or os.path.exists('alljoyn_%s/SConscript' % b.strip()) ])
+ services = set([ s.strip()
+                  for s in env['SERVICES'].split(',')
+-                 if os.path.exists('../../services/base/%s/SConscript' % s.strip())])
++                 if os.path.exists('../../services/base/%s/SConscript' % s.strip()) or
++                 (s.strip() == 'lighting' and os.path.exists('../service_framework/SConscript'))])
+ 
+ print 'Building bindings: %s' % ', '.join(bindings)
+ print 'Building services: %s' % ', '.join(services)
+@@ -59,7 +64,7 @@ if 'js' in bindings:
+ # Always build AboutService.
+ env.SConscript(['services/about/SConscript'])
+ 
+-if services.intersection(['config', 'controlpanel', 'notification', 'onboarding', 'audio']):
++if services.intersection(['config', 'controlpanel', 'notification', 'onboarding', 'audio', 'lighting']):
+     env['APP_COMMON_DIR'] = env.Dir('../../services/base/sample_apps')
+ 
+     if services.intersection(['config', 'onboarding']):
+@@ -79,6 +84,9 @@ if services.intersection(['config', 'con
+     if 'audio' in services:
+         env.SConscript(['../../services/audio/SConscript'])
+ 
++    if services.intersection(['config', 'notification', 'lighting']):
++        env.SConscript(['../service_framework/SConscript'])
++
+ 
+ #Build Win7 SDK installer
+ if env.has_key('WIN7_MSI') and env['WIN7_MSI'] == 'true':

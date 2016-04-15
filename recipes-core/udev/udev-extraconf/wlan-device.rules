@@ -1,0 +1,4 @@
+# Trigger a UDEV event to bring up the interface via RFKILL 
+ACTION=="add", SUBSYSTEM=="ieee80211" \
+	RUN+="/usr/bin/udevadm trigger --action=change --subsystem-match=rfkill", \
+	TAG+="systemd", ENV{SYSTEMD_WANTS}="access-point.service"

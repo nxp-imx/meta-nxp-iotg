@@ -1,0 +1,2 @@
+# named interferes with dnsmasq used by NetworkManager. Disable.
+exit 0

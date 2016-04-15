@@ -1,0 +1,264 @@
+Index: service_framework-14.12/standard_core_library/lighting_controller_client/samples/LightingControllerClientSample.cc
+===================================================================
+--- service_framework-14.12.orig/standard_core_library/lighting_controller_client/samples/LightingControllerClientSample.cc
++++ service_framework-14.12/standard_core_library/lighting_controller_client/samples/LightingControllerClientSample.cc
+@@ -76,6 +76,14 @@ static qcc::String NextTok(qcc::String&
+     return qcc::Trim(ret);
+ }
+ 
++static uint32_t ConvertInt(String inStr, float parts)
++{
++    int input = atoi(inStr.c_str());
++    float part = 0xFFFFFFFF / parts;
++    uint32_t ret = input * part;
++    return ret;
++}
++
+ class ControllerClientCallbackHandler : public ControllerClientCallback {
+   public:
+ 
+@@ -1153,11 +1161,11 @@ class MasterSceneManagerCallbackHandler
+ };
+ 
+ void PrintHelp() {
+-    printf("\nEnter one of the following command numbers to test end-to-end functionality:\n");
++    printf("\nEnter one of the following command numbers to test functionality.\nFollow the command number with lamp ID wherever needed:\n");
+     printf("(1):   GetControllerServiceVersion\n");
+     printf("(2):   LightingResetControllerService\n");
+     printf("(3):   GetAllLampIDs\n");
+-    printf("(4):   GetLampManufacturer\n");
++    printf("(4):   GetLampManufacturer.\n");
+     printf("(5):   GetLampSupportedLanguages\n");
+     printf("(6):   GetLampName\n");
+     printf("(7):   SetLampName\n");
+@@ -1176,11 +1184,11 @@ void PrintHelp() {
+     printf("(20):  TransitionLampState\n");
+     printf("(21):  PulseLampWithState\n");
+     printf("(22):  PulseLampWithPreset\n");
+-    printf("(23):  TransitionLampStateOnOffField\n");
+-    printf("(24):  TransitionLampStateHueField\n");
+-    printf("(25):  TransitionLampStateSaturationField\n");
+-    printf("(26):  TransitionLampStateBrightnessField\n");
+-    printf("(27):  TransitionLampStateColorTempField\n");
++    printf("(23):  TransitionLampStateOnOffField. <command number> <lamp id> <on|off>\n");
++    printf("(24):  TransitionLampStateHueField <command number> <lamp id> <0-360>\n");
++    printf("(25):  TransitionLampStateSaturationField <command number> <lamp id> <1-100>\n");
++    printf("(26):  TransitionLampStateBrightnessField <command number> <lamp id> <1-100>\n");
++    printf("(27):  TransitionLampStateColorTempField <command number> <lamp id> <339076365-1808407282>\n");
+     printf("(28):  TransitionLampStateToPreset\n");
+     printf("(29):  GetLampFaults\n");
+     printf("(30):  ClearLampFault\n");
+@@ -1205,11 +1213,11 @@ void PrintHelp() {
+     printf("(49):  TransitionLampGroupState\n");
+     printf("(50):  PulseLampGroupWithState\n");
+     printf("(51):  PulseLampGroupWithPreset\n");
+-    printf("(52):  TransitionLampGroupStateOnOffField\n");
+-    printf("(53):  TransitionLampGroupStateHueField\n");
+-    printf("(54):  TransitionLampGroupStateSaturationField\n");
+-    printf("(55):  TransitionLampGroupStateBrightnessField\n");
+-    printf("(56):  TransitionLampGroupStateColorTempField\n");
++    printf("(52):  TransitionLampGroupStateOnOffField <command number> <group id> <on|off>\n");
++    printf("(53):  TransitionLampGroupStateHueField <command number> <group id> <0-360>\n");
++    printf("(54):  TransitionLampGroupStateSaturationField <command number> <group id> <1-100>\n");
++    printf("(55):  TransitionLampGroupStateBrightnessField <command number> <group id> <1-100>\n");
++    printf("(56):  TransitionLampGroupStateColorTempField <command number> <lamp id> <339076365-1808407282>\n");
+     printf("(57):  TransitionLampGroupStateToPreset\n");
+     printf("(58):  GetDefaultLampState\n");
+     printf("(59):  SetDefaultLampState\n");
+@@ -1424,32 +1432,37 @@ int main()
+                 waitForReply = true;
+             } else if (cmd == "23") {
+                 String uniqueId = NextTok(line);
++                String state = NextTok(line);
+                 printf("\nInvoking TransitionLampStateOnOffField(%s)\n", uniqueId.c_str());
+-                lampManager.TransitionLampStateOnOffField(uniqueId.c_str(), true);
++                lampManager.TransitionLampStateOnOffField(uniqueId.c_str(), (state == "on"));
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "24") {
+                 String uniqueId = NextTok(line);
++                uint32_t hue = ConvertInt(NextTok(line), 360.00f);
+                 printf("\nInvoking TransitionLampStateHueField(%s)\n", uniqueId.c_str());
+-                lampManager.TransitionLampStateHueField(uniqueId.c_str(), 10, 100);
++                lampManager.TransitionLampStateHueField(uniqueId.c_str(), hue, 100);
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "25") {
+                 String uniqueId = NextTok(line);
++                uint32_t sat = ConvertInt(NextTok(line), 100.00f);
+                 printf("\nInvoking TransitionLampStateSaturationField(%s)\n", uniqueId.c_str());
+-                lampManager.TransitionLampStateSaturationField(uniqueId.c_str(), 20);
++                lampManager.TransitionLampStateSaturationField(uniqueId.c_str(), sat);
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "26") {
+                 String uniqueId = NextTok(line);
++                uint32_t bright = ConvertInt(NextTok(line), 100.00f);
+                 printf("\nInvoking TransitionLampStateBrightnessField(%s)\n", uniqueId.c_str());
+-                lampManager.TransitionLampStateBrightnessField(uniqueId.c_str(), 30, 100);
++                lampManager.TransitionLampStateBrightnessField(uniqueId.c_str(), bright, 100);
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "27") {
+                 String uniqueId = NextTok(line);
++                uint32_t temp = std::stoul(NextTok(line).c_str());
+                 printf("\nInvoking TransitionLampStateColorTempField(%s)\n", uniqueId.c_str());
+-                lampManager.TransitionLampStateColorTempField(uniqueId.c_str(), 50);
++                lampManager.TransitionLampStateColorTempField(uniqueId.c_str(), temp);
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "28") {
+@@ -1512,51 +1525,67 @@ int main()
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "39") {
+-                for (uint8_t i = 0; i < 4; i++) {
+-                    LSFStringList lamps;
+-                    lamps.clear();
++                String name = NextTok(line);
++                if (name == "all") {
++                    // create a group that includes all bulbs
+                     LSFStringList lampGroups;
+                     lampGroups.clear();
+                     if (lampList.empty()) {
+-                        printf("\nYou need to have 20 Lamp Services running for invoking this call. Also call GetAllLampIDs once before invoking this call.\n");
++                        printf("\nYou need to have at least one lamp service running for invoking this call. Also call GetAllLampIDs once before invoking this call.\n");
+                         return 0;
+                     }
+-                    lamps.push_back(lampList.front());
+-                    lampList.pop_front();
+-                    LampGroup group(lamps, lampGroups);
+-                    LSFString name = LSFString("01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123");
++                    LSFString groupName = LSFString("1234567890");
++                    LampGroup group(lampList, lampGroups);
+                     printf("\nInvoking CreateLampGroup(%s)\n", group.c_str());
+-                    status = lampGroupManager.CreateLampGroup(group, name);
++                    status = lampGroupManager.CreateLampGroup(group, groupName);
+                     waitForReply = true;
+                     waitForSignal = true;
+-                    sleep(1);
+-                }
+-                for (uint8_t i = 0; i < 4; i++) {
+-                    LSFStringList lamps;
+-                    lamps.clear();
+-                    LSFStringList lampGroups;
+-                    lampGroups.clear();
+-                    if (lampList.empty()) {
+-                        printf("\nYou need to have 20 Lamp Services running for invoking this call. Also call GetAllLampIDs once before invoking this call.\n");
+-                        return 0;
++                } else {
++                    for (uint8_t i = 0; i < 4; i++) {
++                        LSFStringList lamps;
++                        lamps.clear();
++                        LSFStringList lampGroups;
++                        lampGroups.clear();
++                        if (lampList.empty()) {
++                            printf("\nYou need to have 20 Lamp Services running for invoking this call. Also call GetAllLampIDs once before invoking this call.\n");
++                            return 0;
++                        }
++                        lamps.push_back(lampList.front());
++                        lampList.pop_front();
++                        LampGroup group(lamps, lampGroups);
++                        LSFString name = LSFString("01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123");
++                        printf("\nInvoking CreateLampGroup(%s)\n", group.c_str());
++                        status = lampGroupManager.CreateLampGroup(group, name);
++                        waitForReply = true;
++                        waitForSignal = true;
++                        sleep(1);
+                     }
+-                    lamps.push_back(lampList.front());
+-                    lampList.pop_front();
+-                    if (lampGroupList.size()) {
+-                        lampGroups.push_back(lampGroupList.front());
+-                        lampGroupList.pop_front();
+-                    } else {
+-                        printf("\nError");
+-                        return 0;
++                    for (uint8_t i = 0; i < 4; i++) {
++                        LSFStringList lamps;
++                        lamps.clear();
++                        LSFStringList lampGroups;
++                        lampGroups.clear();
++                        if (lampList.empty()) {
++                            printf("\nYou need to have 20 Lamp Services running for invoking this call. Also call GetAllLampIDs once before invoking this call.\n");
++                            return 0;
++                        }
++                        lamps.push_back(lampList.front());
++                        lampList.pop_front();
++                        if (lampGroupList.size()) {
++                            lampGroups.push_back(lampGroupList.front());
++                            lampGroupList.pop_front();
++                        } else {
++                            printf("\nError");
++                            return 0;
++                        }
++                        LampGroup group(lamps, lampGroups);
++                        printf("\nInvoking CreateLampGroup(%s)\n", group.c_str());
++                        LSFString name = LSFString("SampleLampGroup");
++                        status = lampGroupManager.CreateLampGroup(group, name);
++                        waitForReply = true;
++                        waitForSignal = true;
++                        sleep(1);
+                     }
+-                    LampGroup group(lamps, lampGroups);
+-                    printf("\nInvoking CreateLampGroup(%s)\n", group.c_str());
+-                    LSFString name = LSFString("SampleLampGroup");
+-                    status = lampGroupManager.CreateLampGroup(group, name);
+-                    waitForReply = true;
+-                    waitForSignal = true;
+-                    sleep(1);
+-                }
+ #if 0
+                 LSFStringList lamps;
+                 LSFStringList lampGroups;
+@@ -1572,6 +1601,7 @@ int main()
+                 waitForReply = true;
+                 waitForSignal = true;
+ #endif
++                }
+             } else if (cmd == "40") {
+                 String uniqueId = NextTok(line);
+                 LSFStringList lamps;
+@@ -1652,32 +1682,37 @@ int main()
+                 waitForReply = true;
+             } else if (cmd == "52") {
+                 String uniqueId = NextTok(line);
++                String state = NextTok(line);
+                 printf("\nInvoking TransitionLampGroupStateOnOffField(%s)\n", uniqueId.c_str());
+-                lampGroupManager.TransitionLampGroupStateOnOffField(uniqueId.c_str(), true);
++                lampGroupManager.TransitionLampGroupStateOnOffField(uniqueId.c_str(), (state == "on"));
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "53") {
+                 String uniqueId = NextTok(line);
++                uint32_t hue = ConvertInt(NextTok(line), 360.00f);
+                 printf("\nInvoking TransitionLampGroupStateHueField(%s)\n", uniqueId.c_str());
+-                lampGroupManager.TransitionLampGroupStateHueField(uniqueId.c_str(), 10, 100);
++                lampGroupManager.TransitionLampGroupStateHueField(uniqueId.c_str(), hue, 100);
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "54") {
+                 String uniqueId = NextTok(line);
++                uint32_t sat = ConvertInt(NextTok(line), 100.00f);
+                 printf("\nInvoking TransitionLampGroupStateSaturationField(%s)\n", uniqueId.c_str());
+-                lampGroupManager.TransitionLampGroupStateSaturationField(uniqueId.c_str(), 20);
++                lampGroupManager.TransitionLampGroupStateSaturationField(uniqueId.c_str(), sat);
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "55") {
+                 String uniqueId = NextTok(line);
++                uint32_t bright = ConvertInt(NextTok(line), 100.00f);
+                 printf("\nInvoking TransitionLampGroupStateBrightnessField(%s)\n", uniqueId.c_str());
+-                lampGroupManager.TransitionLampGroupStateBrightnessField(uniqueId.c_str(), 30, 100);
++                lampGroupManager.TransitionLampGroupStateBrightnessField(uniqueId.c_str(), bright, 100);
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "56") {
+                 String uniqueId = NextTok(line);
++                uint32_t temp = std::stoul(NextTok(line).c_str());
+                 printf("\nInvoking TransitionLampGroupStateColorTempField(%s)\n", uniqueId.c_str());
+-                lampGroupManager.TransitionLampGroupStateColorTempField(uniqueId.c_str(), 50);
++                lampGroupManager.TransitionLampGroupStateColorTempField(uniqueId.c_str(), temp);
+                 waitForReply = true;
+                 waitForSignal = true;
+             } else if (cmd == "57") {

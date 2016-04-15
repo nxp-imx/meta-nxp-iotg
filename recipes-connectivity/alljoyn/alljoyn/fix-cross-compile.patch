@@ -1,0 +1,29 @@
+Index: alljoyn-14.12.00b-src/build_core/conf/linux/arm/SConscript
+===================================================================
+--- alljoyn-14.12.00b-src.orig/build_core/conf/linux/arm/SConscript
++++ alljoyn-14.12.00b-src/build_core/conf/linux/arm/SConscript
+@@ -16,17 +16,19 @@
+ Import('env')
+ import os
+ 
+-# Linux specific flags
+-env.Append(CPPDEFINES=['QCC_CPU_ARM'])
+-env.Append(CPPFLAGS=['-march=armv6',
+-                     '-mthumb-interwork'])
+-
+ # Use the OpenEmbedded cross-compilation environment
+ vars = Variables()
+ vars.Add('CROSS_COMPILE', 'Cross compile toolchain prefix', os.environ.get('CROSS_COMPILE'))
++vars.Add('CROSS_CPPFLAGS', 'Cross compile C preprocessor flags', os.environ.get('CROSS_CPPFLAGS'))
++vars.Add('CROSS_LINKFLAGS', 'Cross compile linker flags', os.environ.get('CROSS_LINKFLAGS'))
+ vars.Update(env)
+ Help(vars.GenerateHelpText(env))
+ 
++# Linux specific flags
++env.Append(CPPDEFINES=['QCC_CPU_ARM'])
++env.Append(CPPFLAGS=[env['CROSS_CPPFLAGS'].split()])
++env.Append(LINKFLAGS=[env['CROSS_LINKFLAGS'].split()])
++
+ # Use common CROSS_COMPILE prefix
+ if '' == env.subst('$CROSS_COMPILE'):
+    print 'CROSS_COMPILE variable is required for Linux/ARM builds'

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+USBDEV=$(/usr/bin/lsusb					\
+	| egrep 'Atheros|Ralink|Realtek.*802\.11'	\
+	| awk '{print $2 " " $4}'			\
+	| sed 's/:$//'					\
+	)
+
+if [ -n "$USBDEV" ]; then
+	/usr/sbin/usbreset $USBDEV && sleep 2
+else
+	echo >&2 USB wifi adapter not found
+	exit 1
+fi

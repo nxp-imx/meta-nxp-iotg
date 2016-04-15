@@ -1,0 +1,10 @@
+[Unit]
+Description=DHCP Server
+BindsTo=access-point.service
+
+[Service]
+ExecStart=/usr/sbin/udhcpd -fS /etc/udhcpd.conf
+User=root
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
+
+# We manage wlan0 with access-point.service, not ifup/down.
+# However, we must define an empty wlan0 here to prevent
+# NetworkManager from also trying to manage wlan0.
+iface wlan0 inet static

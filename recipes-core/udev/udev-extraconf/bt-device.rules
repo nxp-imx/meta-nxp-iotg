@@ -1,0 +1,2 @@
+# Set Bluetooth power up
+ACTION=="add", SUBSYSTEM=="bluetooth", RUN+="/usr/bin/hciconfig %k up"

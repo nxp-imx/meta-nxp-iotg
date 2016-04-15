@@ -1,0 +1,5 @@
+
+# For Marvell WiFi 802.11 SDIO card
+KERNEL=="rfkill*", SUBSYSTEM=="rfkill", ATTR{type}=="wlan", \
+	SUBSYSTEMS=="sdio", ATTRS{device}=="0x9119", ATTRS{vendor}=="0x02df", \
+	RUN+="/etc/udev/scripts/wlan.sh"

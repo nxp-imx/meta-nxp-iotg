@@ -1,0 +1,8 @@
+[Unit]
+Description=AllJoyn Daemon
+
+[Service]
+ExecStart=/usr/alljoyn/cpp/bin/alljoyn-daemon --internal
+
+[Install]
+WantedBy=multi-user.target

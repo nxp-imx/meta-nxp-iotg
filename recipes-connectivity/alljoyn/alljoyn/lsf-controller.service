@@ -1,0 +1,6 @@
+[Unit]
+Description=AllJoyn Lighting Controller Service
+
+[Service]
+Type=forking
+ExecStart=/usr/alljoyn/lighting/standard_core_library/lighting_controller_service/bin/lighting_controller_service
