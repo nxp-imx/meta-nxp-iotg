@@ -6,9 +6,6 @@ SRCREV ="${AUTOREV}"
 
 S = "${WORKDIR}/git"
 
-do_configure_prepend() {
-}
-
 INSANE_SKIP_${PN} += "dev-deps"
 
 inherit autotools
