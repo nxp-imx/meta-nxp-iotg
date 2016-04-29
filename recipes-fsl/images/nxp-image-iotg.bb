@@ -5,6 +5,7 @@ inherit core-image distro_features_check
 
 IMAGE_FEATURES += " \
     tools-sdk \
+    dbg-pkgs \
     dev-pkgs \
     tools-debug \
     eclipse-debug \
