@@ -43,10 +43,6 @@ do_install() {
 
 	install -m 0755 ${WORKDIR}/usbreset ${D}${sbindir}
 	install -m 0755 ${WORKDIR}/reset-usbwifi ${D}${sbindir}
-
-	# Start service by default
-	install -d -m 0755 ${D}/etc/systemd/system/multi-user.target.wants
-	ln -sf ${D}/lib/systemd/system/access-point.service ${D}/etc/systemd/system/multi-user.target.wants/access-point.service
 }
 
 FILES_${PN} += "/lib/systemd/system/access-point.service"
