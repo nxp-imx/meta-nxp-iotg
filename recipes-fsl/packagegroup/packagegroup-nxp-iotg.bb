@@ -10,6 +10,7 @@ RDEPENDS_${PN} = " \
     bridge-utils \
     hostap-daemon \
     connman \
+    connman-client \
     crda \
     texinfo \
     libftdi \
@@ -28,6 +29,7 @@ RDEPENDS_${PN} = " \
     dnsmasq \
     polkit-group-rule-network \
     polkit-group-rule-datetime \
+    rpm \
     rsyslog \
     tcpdump \
     vim \
