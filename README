@@ -6,7 +6,7 @@ IoT Gateway Linux image for the NXP i.MX 6UltraLite EVK platform. The layer
 relies on the standard NXP Yocto BSP.
 
 The IoT Gateway support layer provides the following:
-  - router and access point capabilities
+  - WiFi routing, access point and client capabilities
   - various application support packages like python, txthings, and nodejs
 
 This image has only been run on i.MX 6UltraLite EVK. It is not supported
@@ -31,12 +31,12 @@ $ repo sync
 
 Create the build directory:
 
-$ MACHINE=imx6ulevk . sources/meta-nxp-iotg/tools/setup-iotg build
+$ MACHINE=imx6ulevk-iotg . sources/meta-nxp-iotg/tools/setup build
 
 If the build directory exists but you're in a new shell:
 
 $ cd iotg
-$ . ./setup-environment build
+$ . setup-environment build
 
 Build:
 
