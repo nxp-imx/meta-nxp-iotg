@@ -19,7 +19,10 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-DISTRO=nxp-imx-iotg . sources/meta-fsl-bsp-release/imx/tools/fsl-setup-release.sh -b $@
+if [ "$DISTRO" = "" ]; then
+    DISTRO=nxp-imx-iotg
+fi
+. sources/meta-fsl-bsp-release/imx/tools/fsl-setup-release.sh -b $@
 
 echo "INHERIT += \"rm_work\"" >> conf/local.conf
 echo "RM_WORK_EXCLUDE += \"\"" >> conf/local.conf
