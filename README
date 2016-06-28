@@ -36,7 +36,7 @@ $ MACHINE=imx6ulevk-iotg . sources/meta-nxp-iotg/tools/setup build
 If the build directory exists but you're in a new shell:
 
 $ cd iotg
-$ . setup-environment build
+$ . ./setup-environment build
 
 Build:
 
