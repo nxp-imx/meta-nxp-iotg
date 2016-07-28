@@ -1,7 +1,7 @@
 SUMMARY = "Python 2.6 backport of the Python 3.4 ipaddress module."
 HOMEPAGE = "https://bitbucket.org/kwi/py2-ipaddress/"
 LICENSE = "Python-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=7f538584cc3407bf76042def7168548a"
+LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=b8f6b0182a64c5078ee13bbfb653b85e"
 
 DEPENDS += "python-pip"
 
