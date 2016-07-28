@@ -14,6 +14,6 @@ inherit setuptools
 
 RDEPENDS_${PN} = "\
     python-twisted \
-    python-ipaddress \
+    py2-ipaddress \
 "
 
