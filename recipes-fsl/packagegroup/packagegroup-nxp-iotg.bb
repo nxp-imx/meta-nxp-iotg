@@ -11,6 +11,8 @@ RDEPENDS_${PN} = " \
     hostap-daemon \
     connman \
     connman-client \
+    smcroute \
+    radvd \
     crda \
     texinfo \
     libftdi \
