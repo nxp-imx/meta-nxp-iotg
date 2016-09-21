@@ -11,3 +11,5 @@ SRC_URI = "git://github.com/troglobit/smcroute.git;branch=master;protocol=git"
 S = "${WORKDIR}/git"
 
 inherit autotools
+
+EXTRA_OECONF = "--enable-ipv6"
