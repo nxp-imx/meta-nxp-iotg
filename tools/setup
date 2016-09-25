@@ -22,9 +22,7 @@
 if [ "$DISTRO" = "" ]; then
     DISTRO=nxp-imx-iotg
 fi
-./sources/meta-fsl-bsp-release/imx/tools/fsl-setup-release.sh -b $@
-
-cd $@
+EULA=$EULA DISTRO=$DISTRO MACHINE=$MACHINE . ./sources/meta-fsl-bsp-release/imx/tools/fsl-setup-release.sh -b $@
 
 echo "INHERIT += \"rm_work\"" >> conf/local.conf
 echo "RM_WORK_EXCLUDE += \"\"" >> conf/local.conf
