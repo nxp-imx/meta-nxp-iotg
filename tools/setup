@@ -22,7 +22,9 @@
 if [ "$DISTRO" = "" ]; then
     DISTRO=nxp-imx-iotg
 fi
-. sources/meta-fsl-bsp-release/imx/tools/fsl-setup-release.sh -b $@
+./sources/meta-fsl-bsp-release/imx/tools/fsl-setup-release.sh -b $@
+
+cd $@
 
 echo "INHERIT += \"rm_work\"" >> conf/local.conf
 echo "RM_WORK_EXCLUDE += \"\"" >> conf/local.conf
