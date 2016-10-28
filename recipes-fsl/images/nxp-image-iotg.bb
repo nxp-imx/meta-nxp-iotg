@@ -21,7 +21,7 @@ IMAGE_INSTALL += " \
     kernel-dev \
     packagegroup-core-full-cmdline \
     packagegroup-nxp-iotg \
-    packagegroup-fsl-tools-bluetooth \
+    packagegroup-tools-bluetooth \
 "
 
 export IMAGE_BASENAME = "nxp-image-iotg"
