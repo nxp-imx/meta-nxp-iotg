@@ -3,7 +3,7 @@
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
-SRC_URI_append_imx6ulevk-iotg = " file://0001-defconfig.patch"
+SRC_URI_append = " file://0001-defconfig.patch"
 
 addtask copy_defconfig_after_patch after do_patch before do_configure
 do_copy_defconfig_after_patch () {
