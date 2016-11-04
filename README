@@ -23,7 +23,7 @@ Create the BSP directory:
 
 $ mkdir iotg
 $ cd iotg
-$ repo init -u git://git.freescale.com/imx/fsl-arm-yocto-bsp.git -b imx-4.1.15-1.0.0_iotg-demo
+$ repo init -u git://git.freescale.com/imx/fsl-arm-yocto-bsp.git -b imx-4.1-krogoth -m imx-4.1.15-2.0.0-iotg-demo
 
 Download the BSP:
 
@@ -31,7 +31,7 @@ $ repo sync
 
 Create the build directory:
 
-$ MACHINE=imx6ulevk-iotg . sources/meta-nxp-iotg/tools/setup build
+$ . sources/meta-nxp-iotg/tools/setup build
 
 If the build directory exists but you're in a new shell:
 
