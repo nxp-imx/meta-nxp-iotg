@@ -32,6 +32,8 @@ echo "RM_WORK_EXCLUDE += \"\"" >> conf/local.conf
 
 echo "BBLAYERS += \" \${BSPDIR}/sources/meta-openembedded/meta-systemd \"" >> conf/bblayers.conf
 echo "BBLAYERS += \" \${BSPDIR}/sources/meta-nxp-iotg \"" >> conf/bblayers.conf
+echo "BBLAYERS += \" \${BSPDIR}/sources/meta-fsl-mpu-internal/meta-next \"" >> conf/bblayers.conf
+echo "BBLAYERS += \" \${BSPDIR}/sources/meta-fsl-mpu-internal/meta-fsl-bcmdhd \"" >> conf/bblayers.conf
 
 echo ""
 echo "IoT Gateway setup complete. Create an image with:"
