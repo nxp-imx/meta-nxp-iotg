@@ -2,32 +2,21 @@ IoT Gateway Support for Yocto BSP
 =================================
 
 The IoT Gateway support layer 'meta-nxp-iotg' provides support for building the
-IoT Gateway Linux images for the NXP i.MX 6UltraLite EVK and i.MX 6UltraLowLite EVK platforms. 
-The layer relies on the standard NXP Yocto BSP.
+IoT Gateway Linux images for the NXP i.MX 6UltraLite EVK and i.MX 6UltraLowLite
+EVK platforms. The layer relies on the standard NXP Yocto BSP.
 
 The IoT Gateway support layer provides the following:
   - WiFi routing, access point and client capabilities
   - various application support packages like python, txthings, and nodejs
 
-These images have only been run on i.MX 6UL EVK and i.MX 6ULL EVK. Those are not supported.
+These images are not supported.
 
-Some instructions for enabling WiFi (6ULL board):
-
-(in u-boot)
-$ setenv fdt_file imx6ull-14x14-evk-btwifi.dtb
-$ saveenv
-$ boot
-(in console)
-$ ifconfig wlan0 up
-$ wpa_passphrase [wifi-network] [wifi-password] >> /etc/wpa_supplicant.conf
-$ wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant.conf -D nl80211
-$ udhcpc -i wlan0
-For 6UL board change the dtb file to: imx6ul-14x14-evk-btwifi.dtb
-
+Quick Start
+-----------
 To setup the BSP you need to have `repo` installed. Install the `repo` utility:
 
 $ mkdir ~/bin
-$ curl http://commondatastorage.googleapis.com/git-repo-downloads/repo  > ~/bin/repo
+$ curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 $ chmod a+x ~/bin/repo
 $ PATH=${PATH}:~/bin
 
@@ -35,17 +24,16 @@ Create the BSP directory:
 
 $ mkdir iotg
 $ cd iotg
-$ repo init -u ssh://git@sw-stash.freescale.net/~nxf25325/fork-fsl-arm-yocto-bsp.git -b morty-internal -m morty-iotg-demo.xml
+$ repo init -u git://git.freescale.com/imx/fsl-arm-yocto-bsp.git -b <branch> -m <manifest>.xml
 
 Download the BSP:
 
 $ repo sync
 
-Create the build directory:
+Create the build directory, with <machine> = imx6ulevk or imx6ull14x14evk:
 
-$ MACHINE=imx6ulevk . ./sources/meta-nxp-iotg/tools/setup build
-or
-MACHINE=imx6ull14x14evk . ./sources/meta-nxp-iotg/tools/setup build
+$ . sources/meta-nxp-iotg/tools/setup build
+$ MACHINE=<machine> . ./sources/meta-nxp-iotg/tools/setup build
 
 If the build directory exists but you're in a new shell:
 
@@ -55,3 +43,20 @@ $ . ./setup-environment build
 Build:
 
 $ bitbake nxp-image-iotg
+
+Wifi
+----
+Some instructions for enabling WiFi:
+
+In the boot console, update the dtb, with <dtb-proc> = imx6ul or imx6ull:
+
+$ setenv fdt_file <dtb-proc>-14x14-evk-btwifi.dtb
+$ saveenv
+$ boot
+
+In the shell console, configure the board as a WiFi client:
+
+$ ifconfig wlan0 up
+$ wpa_passphrase <wifi-network> <wifi-password> >> /etc/wpa_supplicant.conf
+$ wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant.conf -D nl80211
+$ udhcpc -i wlan0
