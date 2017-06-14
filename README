@@ -24,7 +24,7 @@ Create the BSP directory:
 
 $ mkdir iotg
 $ cd iotg
-$ repo init -u git://git.freescale.com/imx/fsl-arm-yocto-bsp.git -b <branch> -m <manifest>.xml
+$ repo init -u git://git.freescale.com/imx/fsl-arm-yocto-bsp.git -b imx-morty -m imx-4.9.11-1.0.0-iotg-demo.xml
 
 Download the BSP:
 
